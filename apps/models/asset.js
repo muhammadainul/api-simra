@@ -11,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
 	 */
 	static associate(models) {
 		// define association here
+		asset.belongsTo(models.kategori_asset, { foreignKey: 'id_kategori' })
+		asset.belongsTo(models.gambar, { foreignKey: 'id_gambar' })
+		asset.belongsTo(models.kamar, { foreignKey: 'id_kamar' })
+		asset.belongsTo(models.asrama, { foreignKey: 'id_asrama' })
 	}
 	};
 	asset.init({
@@ -57,9 +61,16 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false
 		},
-		created_at: DataTypes.DATE,
-		updated_at: DataTypes.DATE
+		created_at: { 
+			type: DataTypes.DATE,
+			defaultValue: sequelize.fn('now')
+		},
+		updated_at: { 
+			type: DataTypes.DATE,
+			defaultValue: sequelize.fn('now')
+		},
 	}, {
+		timestamps: false,
 		sequelize,
 		modelName: 'asset',
 		freezeTableName: true

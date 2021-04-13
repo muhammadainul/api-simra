@@ -3,7 +3,7 @@
 const debug = require('debug')
 const { isEmpty } = require('lodash')
 const Lantai = require('../queries/lantai')
-const log = debug('api-simra:lantai:')
+const log = debug('api-asrama:lantai:')
 
 async function getLantai (req, res) {
     let data = req.body

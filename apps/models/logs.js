@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
 	 */
 	static associate(models) {
 		// define association here
+		logs.belongsTo(models.users, { foreignKey: 'id_users'} )
 	}
 	}
 	logs.init({
@@ -25,7 +26,10 @@ module.exports = (sequelize, DataTypes) => {
 		browser_version: DataTypes.STRING,
 		os: DataTypes.STRING,
 		logtime: DataTypes.DATE,
-		logdetail: DataTypes.STRING,
+		logdetail: {
+			type: DataTypes.STRING,
+			defaultValue: sequelize.fn('now')
+		},
 		hostname: DataTypes.STRING,
 		id_users: {
 			type: DataTypes.UUID,

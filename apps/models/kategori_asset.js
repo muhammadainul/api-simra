@@ -26,9 +26,16 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false
 		},
-		created_at: DataTypes.DATE,
-		updated_at: DataTypes.DATE
+		created_at: { 
+			type: DataTypes.DATE,
+			defaultValue: sequelize.fn('now')
+		},
+		updated_at: {
+			type: DataTypes.DATE,
+			defaultValue: sequelize.fn('now')
+		}
 		}, {
+		timestamps: false,
 		sequelize,
 		modelName: 'kategori_asset',
 		freezeTableName: true

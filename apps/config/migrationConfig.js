@@ -10,11 +10,15 @@ module.exports = {
     dialect: 'postgres'
   },
   test: {
-    url: process.env.TEST_DATABASE_URL,
+    url: process.env.DB_URL,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     dialect: 'postgres',
   },
   production: {
-    url: process.env.DATABASE_URL,
+    url: process.env.DB_URL,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     dialect: 'postgres',
   },
 }

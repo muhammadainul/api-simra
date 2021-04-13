@@ -14,7 +14,7 @@ async function isVerified (req, res, next) {
         req.user = decoded
         next()
     } catch (error) {
-        return res.status(400).json({ statusCode: 400, message: 'Invalid token.', error: error })
+        return res.status(200).json({ statusCode: 400, message: 'Invalid token.', error: error })
     }
 }
 

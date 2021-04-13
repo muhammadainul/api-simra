@@ -2,7 +2,7 @@ const debug = require('debug')
 const _ = require('lodash')
 const { asrama, kamar, gambar } = require('../models')
 const { Op } = require('sequelize')
-const log = debug('api-simra:queries:asrama:')
+const log = debug('api-asrama:queries:asrama:')
 
 async function getAllSearch ({ asramaId, options }) {
     log('getAllSearch', asramaId, options)
@@ -60,7 +60,7 @@ async function getAll ({ options }) {
                 attributes: [['id', 'filesId'], 'filename', 'originalname', 'path'],
                 as: 'files'
             }],
-            order: [[ 'id', 'desc' ]],
+            order: [[ 'id', 'asc' ]],
             offset: options.skip,
             limit: options.limit,
             mapToModel: true
@@ -69,6 +69,21 @@ async function getAll ({ options }) {
         log('results', result)
         return result
     } catch (error) {   
+        throw error
+    }
+}
+
+async function findAll () {
+    log('findAll')
+    try {
+        let result = await asrama.findAll({
+            where: { is_deleted: false },
+            order: [[ 'id', 'asc' ]],
+            mapToModel: true
+        })
+        log('results', result)
+        return result
+    } catch (error) {
         throw error
     }
 }
@@ -110,11 +125,10 @@ async function findById (id) {
     log('findById', id)
     try {
         let result = await asrama.findAll({
-            include: [{
+            include: {
                 model: gambar,
-                as: 'files',
-                attributes: [['id', 'idGambar'], 'filename'] 
-            }],
+                as: 'files'
+            },
             where: {
                 id: id
             },
@@ -153,12 +167,29 @@ async function editById (formData, id) {
     }
 }
 
+async function deleteById (id) {
+    log('deleteById', id)
+    try {
+        let result = await asrama.destroy({
+            where: {
+                id: id
+            }
+        })
+        log('results', result)
+        return result
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = {
     getAllSearch,
     getAll,
+    findAll,
     getByName,
     findByName,
     findById,
     create,
-    editById
+    editById,
+    deleteById
 }

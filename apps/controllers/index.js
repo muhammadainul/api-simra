@@ -11,7 +11,7 @@ const nodemailer = require('nodemailer')
 const jwt = require('jsonwebtoken')
 const { myConfig } = require('../config/config') 
 const salt = bcrypt.genSaltSync(10)
-const log = debug('api-simra:index:')
+const log = debug('api-asrama:index:')
 
 async function registrasi (req, res) {
     let data = req.body
@@ -25,7 +25,7 @@ async function registrasi (req, res) {
 
         if (data.password !== data.repassword) return res.status(400).json({ statusCode: 400, message: 'Password tidak cocok.' })
 
-        let tokenCode = { 
+        let tokenCode = {
             token: crypto.randomBytes(50).toString('hex')
         }   
         let createTokenCode = await Token.create(tokenCode) 

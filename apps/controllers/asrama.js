@@ -2,7 +2,7 @@ const debug = require('debug')
 const _ = require('lodash')
 const Gambar = require('../queries/gambar')
 const Asrama = require('../queries/asrama')
-const log = debug('api-simra:asrama:')
+const log = debug('api-asrama:asrama:')
 
 async function getAll (req, res) {
     let data = req.body
@@ -44,6 +44,16 @@ async function getById (req, res) {
         const exists = await Asrama.findById(param.id)
         if (_.isEmpty(exists)) return res.status(200).json({ statusCode: 404, message: 'Data asrama tidak ditemukan.', data: exists })
         return res.status(200).json({ statusCode: 200, data: exists })
+    } catch (error) {
+        throw error
+    }
+}
+
+async function getAsrama (req, res) {
+    log('getAsrama')
+    try {
+        const result = await Asrama.findAll()
+        return res.status(200).json({ statusCode: 200, data: result })
     } catch (error) {
         throw error
     }
@@ -115,9 +125,30 @@ async function editAsrama (req, res) {
     }
 }
 
+async function deleteById (req, res) {
+    let param = req.params
+    log('deleteById', param)
+    try {
+        const exists = await Asrama.findById(param.id)
+        if (_.isEmpty(exists)) return res.status(200).json({ statusCode: 404, message: 'Data asrama tidak ditemukan.' })
+
+        const deleted = await Asrama.deleteById(param.id)
+        const deletedGambar = await Gambar.deleteById(exists.files.id)
+        
+        if (!deleted) return res.status(200).json({ statusCode: 400, message: 'Gagal menghapus data asrama.' })
+        if (!deletedGambar) return res.status(200).json({ statusCode: 400, message: 'Gagal menghapus data gambar.' })
+
+        return res.status(200).json({ statusCode: 200, message: 'Data asrama berhasil dihapus.' })
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = {
     getAll,
     getById,
+    getAsrama,
     addAsrama,
-    editAsrama
+    editAsrama,
+    deleteById
 }

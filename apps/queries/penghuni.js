@@ -1,6 +1,6 @@
 const debug = require('debug')
 const { users, penghuni } = require('../models')
-const log = debug('api-simra:penghuni:')
+const log = debug('api-asrama:penghuni:')
 const { Op } = require('sequelize')
 
 async function findByPhone (no_telepon) {

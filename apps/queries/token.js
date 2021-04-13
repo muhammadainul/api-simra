@@ -1,6 +1,6 @@
 const debug = require('debug')
 const { token } = require('../models')
-const log = debug('api-simra:token:')
+const log = debug('api-asrama:token:')
 const { Op } = require('sequelize')
 
 async function create (tokenCode) {

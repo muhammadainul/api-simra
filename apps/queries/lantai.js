@@ -1,6 +1,6 @@
 const debug = require('debug')
 const { lantai } = require('../models')
-const log = debug('api-simra:queries:lantai:')
+const log = debug('api-asrama:queries:lantai:')
 const { Op } = require('sequelize')
 const { isEmpty } = require('lodash')
 

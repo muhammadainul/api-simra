@@ -1,6 +1,6 @@
 const debug = require('debug')
 const _ = require('lodash')
-const log = debug('api-simra:report:')
+const log = debug('api-asrama:report:')
 const Report = require('../queries/report')
 
 async function getReport (req, res) {

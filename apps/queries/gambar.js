@@ -2,7 +2,7 @@ const debug = require('debug')
 const _ = require('lodash')
 const { asrama, kamar, gambar } = require('../models')
 const { Op } = require('sequelize')
-const log = debug('api-simra:queries:gambar:')
+const log = debug('api-asrama:queries:gambar:')
 
 async function create (data) {
     log('create', data)
@@ -30,7 +30,22 @@ async function editById (formDataImage, id) {
     }
 }
 
+async function deleteById (id) {
+    log('deleteById', id)
+    try {
+        let result = await gambar.update(
+            { is_deleted: true },
+            { where: { id: id }
+        })
+        log('results', result)
+        return result
+    } catch (error) {
+        throw error
+    }
+}
+
 module.exports = {
     create,
-    editById
+    editById,
+    deleteById
 }

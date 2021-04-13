@@ -15,7 +15,7 @@ const {
     sequelize
  } = require('../models')
 const { Op } = require('sequelize')
-const log = debug('api-simra:queries:')
+const log = debug('api-asrama:queries:')
 
 async function getTotalCounts () {
     log('getTotalCounts: ')

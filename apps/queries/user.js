@@ -1,6 +1,6 @@
 const debug = require('debug')
 const { users, penghuni, kamar } = require('../models')
-const log = debug('api-simra:users:')
+const log = debug('api-asrama:users:')
 const { Op } = require('sequelize')
 
 async function create (user) {

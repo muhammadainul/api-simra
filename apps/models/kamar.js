@@ -9,13 +9,14 @@ module.exports = (sequelize, DataTypes) => {
 	 * This method is not a part of Sequelize lifecycle.
 	 * The `models/index` file will call this method automatically.
 	 */
-	static associate(models) {
-		// define association here
-		kamar.hasOne(models.penghuni, { foreignKey: 'id_kamar' })
-		kamar.belongsTo(models.asrama, { foreignKey: 'id_asrama' })
-		kamar.belongsTo(models.lantai, { foreignKey: 'id_lantai' })
+		static associate(models) {
+			// define association here
+			kamar.hasOne(models.penghuni, { foreignKey: 'id_kamar' })
+			kamar.belongsTo(models.asrama, { foreignKey: 'id_asrama' })
+			kamar.belongsTo(models.lantai, { foreignKey: 'id_lantai' })
+			kamar.belongsTo(models.gambar, { foreignKey: 'id_gambar' })
+		}
 	}
-	};
 	kamar.init({
 		id: {
 			type: DataTypes.UUID,
@@ -54,15 +55,16 @@ module.exports = (sequelize, DataTypes) => {
 			type: DataTypes.BOOLEAN,
 			defaultValue: false
 		},
-		createdAt: {
+		created_at: {
 			type: DataTypes.DATE,
 			field: 'created_at'
 		},
-		updatedAt: {
+		updated_at: {
 			type: DataTypes.DATE,
 			field: 'updated_at'
 		}
 	}, {
+	timestamps: false,
 	sequelize,
 	modelName: 'kamar',
 	freezeTableName: true
