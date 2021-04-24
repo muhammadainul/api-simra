@@ -3,10 +3,28 @@ const { users, penghuni, kamar } = require('../models')
 const log = debug('api-asrama:users:')
 const { Op } = require('sequelize')
 
-async function create (user) {
-    log('create', user)
+async function create (data, kewenangan_id, enabled, str) {
+    log('create', { data, kewenangan_id, enabled, str })
     try {
-        let result = await users.create(user)
+        let result = await users.create({ 
+            nama_lengkap: data.nama_lengkap,
+            nip: data.nip,
+            email: data.email,
+            kewenangan_id,
+            enabled,
+            password: str
+        })
+        log('results', result)
+        return result
+    } catch (error) {
+        throw error
+    }
+}
+
+async function editById (data, id) {
+    log('editById', { data, id })
+    try {
+        const result = await users.update({ nama_lengkap: data.nama_lengkap, nip: data.nip, email: data.email }, { where: { id } })
         log('results', result)
         return result
     } catch (error) {
@@ -20,7 +38,8 @@ async function findByEmail (email) {
         let result = await users.findAll({ 
             where: { email: email, is_deleted: false },
             include: {
-                model: penghuni
+                model: penghuni,
+                as: 'userDetail'
             },
             raw: true
         })
@@ -59,6 +78,7 @@ async function findByNip (nip) {
 
 module.exports = {
     create, 
+    editById,
     findByEmail,
     findByNip
 }

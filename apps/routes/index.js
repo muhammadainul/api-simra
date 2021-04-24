@@ -9,6 +9,8 @@ const kategoriAsset = require('../controllers/kategoriAsset')
 const kartu = require('../controllers/kartu')
 const lantai = require('../controllers/lantai')
 const report = require('../controllers/report')
+const reservasi = require('../controllers/reservasi')
+const qrcode = require('../controllers/qrcode')
 const logs = require('../controllers/logs')
 const isVerified = require('./isVerified')
 
@@ -16,8 +18,8 @@ const isVerified = require('./isVerified')
 router.get('/v1/asrama/report', [isVerified], report.getReport)
 
 // index
-router.post('/v1/asrama/pengguna/login', index.login)
-router.post('/v1/asrama/registrasi', index.registrasi)
+router.post('/v1/pengguna/login', index.login)
+router.post('/v1/pengguna/registrasi', index.registrasi)
 
 // lantai
 router.get('/v1/asrama/lantai', [isVerified], lantai.getLantai)
@@ -62,8 +64,19 @@ router.post('/v1/asrama/asrama', [isVerified], asrama.addAsrama)
 router.patch('/v1/asrama/asrama/:id', [isVerified], asrama.editAsrama)
 router.delete('/v1/asrama/asrama/:id', [isVerified], asrama.deleteById)
 
+// reservasi
+router.get('/v1/reservasi/getAll', [isVerified], reservasi.getAll)
+router.get('/v1/reservasi/getById/:id', [isVerified], reservasi.getById)
+router.post('/v1/reservasi/add', [isVerified], reservasi.addReservasi)
+router.post('/v1/reservasi/checkin', [isVerified], reservasi.checkIn)
+router.post('/v1/reservasi/checkout', [isVerified], reservasi.checkOut)
+router.patch('/v1/reservasi/edit/:id', [isVerified], reservasi.editReservasi)
+
 // logs
 router.get('/v1/logs/getAll', [isVerified], logs.getAll)
 router.post('/v1/asrama/logs', logs.create)
+
+// qrcode
+router.get('/v1/qrcode/:id', [isVerified], qrcode.getQRCode)
 
 module.exports = router

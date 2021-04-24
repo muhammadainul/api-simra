@@ -221,7 +221,9 @@ async function findByRfidStatus (newRfid) {
             ],
             where: {
                 rfid: {
-                    [Op.and]: [ sequelize.literal("kartu.status = 0 OR kartu.status = 1") ]
+                    [Op.and]: [ 
+                        sequelize.literal("kartu.status = 0 OR kartu.status = 1") 
+                    ]
                 },
                 is_deleted: false
             }

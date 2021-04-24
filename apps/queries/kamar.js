@@ -1,5 +1,5 @@
 const debug = require('debug')
-const { isEmpty, assignIn } = require('lodash')
+const { isEmpty } = require('lodash')
 const { 
     asrama,
     kamar, 
@@ -7,7 +7,7 @@ const {
     lantai, 
     sequelize 
 } = require('../models')
-const { Op, UUID } = require('sequelize')
+const { Op } = require('sequelize')
 const log = debug('api-asrama:queries:kamar:')
 
 async function getAllSearch ({ idAsrama, kamarId, options }) {
@@ -181,6 +181,17 @@ async function findAll () {
     }
 }
 
+async function checkIfAvailable (id) {
+    log('checkIfAvailable', id)
+    try {
+        const result = await kamar.findAll({ where: { id: id, is_deleted: false }})
+        log('results', result)
+        return result
+    } catch (error) {
+        throw error
+    }
+}
+
 async function getByLantai (id) {
     log('getByLantai', id)
     try {
@@ -233,6 +244,28 @@ async function editById (formData, id) {
     }
 }
 
+async function updateById (id_kamar) {
+    log('updateById', id_kamar)
+    try {
+        const result = await kamar.update({ status: 1 }, { where: { id: id_kamar } })
+        log('results', result)
+        return result
+    } catch (error) {
+        throw error
+    }
+}
+
+async function updateStatus (id) {  
+    log('updateStatus', id) 
+    try {
+        const result = await kamar.update({ status: 0 }, { where: { id }})
+        log('results', result)
+        return result
+    } catch (error) {
+        throw error
+    }
+}
+
 async function deleteById (id) {
     log('deleteById', id)
     try {
@@ -251,10 +284,13 @@ module.exports = {
     getByName,
     getAllSearch,
     getAll,
+    checkIfAvailable,
     findById,
     findAll,
     getByLantai,
     create,
     editById,
+    updateById,
+    updateStatus,
     deleteById
 }
